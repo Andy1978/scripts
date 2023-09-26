@@ -13,7 +13,9 @@ fi
 if [ -f "$1" ]; then
   out=$(mktemp)
   size_before=$(stat -c "%s" "$1" | numfmt --to=iec)
-  gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -q -o "$out" "$1"
+  # https://ghostscript.com/docs/9.54.0/VectorDevices.htm
+  #gs -sDEVICE=pdfwrite -dPDFSETTINGS=/ebook -q -o "$out" "$1"
+  gs -sDEVICE=pdfwrite -dPDFSETTINGS=/printer -q -o "$out" "$1"
   mv "$out" "$1"
   size_after=$(stat -c "%s" "$1" | numfmt --to=iec)
   echo "$1 before:$size_before after:$size_after"
